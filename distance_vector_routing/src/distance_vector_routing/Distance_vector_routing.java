@@ -10,17 +10,18 @@ import java.util.*;
 
 
 public class Distance_vector_routing {
-
-    
-    public static void main(String[] args) throws IOException {
-        File file = new File("graph.txt");
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        ArrayList<String> entry = new ArrayList<String>();
-
-        String line;
         int graph [][];
         int row = 0;
         int col = 3;
+    
+    public Distance_vector_routing(int row, int col, int graph[][]) throws IOException{
+        File file = new File("graph.txt");
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        ArrayList<String> entry = new ArrayList<String>();
+        Tables table;
+        
+        String line;
+        
         int num;
         
         while ((line= br.readLine()) != null){
@@ -41,7 +42,7 @@ public class Distance_vector_routing {
             }
             System.out.println();
         }
-        
+        //table = new Tables(row,col,graph);
     }
     
 }
