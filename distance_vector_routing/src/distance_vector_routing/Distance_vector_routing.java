@@ -14,7 +14,7 @@ public class Distance_vector_routing {
         int row = 0;
         int col = 3;
     
-    public Distance_vector_routing(int row, int col, int graph[][]) throws IOException{
+    public Distance_vector_routing() throws IOException{
         File file = new File("graph.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         ArrayList<String> entry = new ArrayList<String>();

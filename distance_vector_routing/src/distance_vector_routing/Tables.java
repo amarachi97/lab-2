@@ -11,20 +11,27 @@ public class Tables extends JFrame {
     int graph[][];
     JTable tables;
     
-    public Tables(int row, int col, int graph[][]){
-        this.row = row;
-        this.col = col;
-        this.graph = graph;
+    public Tables() throws IOException{
+        
         setLayout (new FlowLayout());
         printTables();
     }
     
-    public void printTables(){
+    public void printTables() throws IOException{
         int i = 0;
         int j = 0;
+    
         String name;
+        
+        Distance_vector_routing a = new Distance_vector_routing();
+        this.row = a.row;
+        this.col = a.col;
+        this.graph = a.graph;
         String columnNames [] = new String [row];
         Object[][] data = new Object[row][col];
+        
+        
+        System.out.print(row);
         
         for(i=0; i < row; i++){
             name = "cost to node " + row;
@@ -33,7 +40,8 @@ public class Tables extends JFrame {
         
         for(i=0; i<row; i++){
             for(j=0; j<col; j++){
-                data[i][j] = graph[i][j];
+                data[i][j] = String.valueOf(graph[i][j]);
+                System.out.print(data[i][j]);
             }
         }
         
@@ -42,10 +50,15 @@ public class Tables extends JFrame {
         tables.setFillsViewportHeight(true);
         
         JScrollPane scrollPane = new JScrollPane(tables);
+        add(scrollPane);
     }
     
     public static void main(String args[]) throws IOException{
-        Distance_vector_routing a = new Distance_vector_routing(row, col, graph);
+        Tables gui = new Tables();
+        gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        gui.setSize(600, 200);
+        gui.setVisible(true);
+        gui.setTitle("Table");
     }
     
 }
