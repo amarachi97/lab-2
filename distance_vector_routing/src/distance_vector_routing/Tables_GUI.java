@@ -40,8 +40,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     Object[] table5 = {"5", "-", "-", "-", "-", "-", "-"};
     Object[] table6 = {"6", "-", "-", "-", "-", "-", "-"};
     public Tables_GUI() throws FileNotFoundException, IOException {
-        String columnNames [] = new String [row];
-        
+        //String columnNames [] = new String [row];  
         initComponents();
         readFile();
         
@@ -293,50 +292,61 @@ public class Tables_GUI extends javax.swing.JFrame {
             {
                 String l = tableLines[i].toString().trim();
                 String[] dataRow = l.split(" ");
-                System.out.print(dataRow[0]);
+                System.out.print(dataRow[0]+dataRow[1]+ dataRow[2]);
                 switch (dataRow[0]) {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                     case "2":
                         table2[2] = "0";
                         table2[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                     case "3":
                         table3[3] = "0";
                         table3[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                     case "4":
                         table4[4] = "0";
                         table4[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                     case "5":
                         table5[5] = "0";
                         table5[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                     case "6":
                         table6[6] = "0";
                         table6[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        break;
                 }
-
+                //System.out.print(dataRow[1]);
                 switch (dataRow[1]) {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                     case "2":
                         table2[2] = "0";
                         table2[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                     case "3":
                         table3[3] = "0";
                         table3[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                     case "4":
                         table4[4] = "0";
                         table4[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                     case "5":
                         table5[5] = "0";
                         table5[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                     case "6":
                         table6[6] = "0";
                         table6[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        break;
                 }
             }
-        //model.addRow(table1);
     }
     
     /**
