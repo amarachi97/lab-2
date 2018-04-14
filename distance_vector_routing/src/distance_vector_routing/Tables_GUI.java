@@ -239,16 +239,16 @@ public class Tables_GUI extends javax.swing.JFrame {
                 String l = tableLines[i].toString().trim();
                 String[] dataRow = l.split(" ");
                 System.out.print(dataRow[0]);
-                switch (Integer.valueOf((String)dataRow[0])) {
-                    case 1:
+                switch (dataRow[0]) {
+                    case "1":
                         table1[1] = "0";
-                        table1[(int) tableLines[1]] = tableLines[2];
+                        table1[Integer.parseInt(dataRow[1])] = dataRow[2];
                 }
 
-                switch (Integer.valueOf(dataRow[1])) {
-                    case 1:
+                switch (dataRow[1]) {
+                    case "1":
                         table1[1] = "0";
-                        table1[(int) tableLines[0]] = tableLines[2];
+                        table1[Integer.parseInt(dataRow[0])] = dataRow[2];
                 }
             }
         model.addRow(table1);
