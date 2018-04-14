@@ -25,10 +25,14 @@ public class Tables_GUI extends javax.swing.JFrame {
      */
     int row = 0;
     String columnNames [];
-    
-    public Tables_GUI() throws FileNotFoundException, IOException {String columnNames [] = new String [row];
+    Object[] tableLines;
+    Object[] table1 = {"1", "-", "-", "-", "-", "-", "-"};
+    public Tables_GUI() throws FileNotFoundException, IOException {
+        String columnNames [] = new String [row];
+        
         initComponents();
         readFile();
+        
     }
 
     /**
@@ -157,17 +161,34 @@ public class Tables_GUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setColumnIdentifiers(columnNames);
+        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
+            
+
+       /* switch (Integer.valueOf((String) tableLines[0])) {
+            case 1:
+                table1[1] = "0";
+                table1[(int) tableLines[1]] = tableLines[2];
+        }
+
+        switch ((int) tableLines[0]) {
+            case 1:
+                table1[1] = "0";
+                table1[(int) tableLines[0]] = tableLines[2];
+        }*/
+        
+        
+        
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.addRow(table1);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -189,7 +210,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     public void readFile() throws FileNotFoundException, IOException{
         File file = new File("graph.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
-        Object[] tableLines = br.lines().toArray();
+        tableLines = br.lines().toArray();
         
         String line, name;
         
@@ -204,9 +225,35 @@ public class Tables_GUI extends javax.swing.JFrame {
             name = Integer.toString(i);
             columnNames[i] = name;
         }
-        
+        populate();
         
     }
+    
+    public void populate(){
+        int i;
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setColumnIdentifiers(columnNames);
+        
+        for( i = 0; i < tableLines.length; i++)
+            {
+                String l = tableLines[i].toString().trim();
+                String[] dataRow = l.split(" ");
+                System.out.print(dataRow[0]);
+                switch (Integer.valueOf((String)dataRow[0])) {
+                    case 1:
+                        table1[1] = "0";
+                        table1[(int) tableLines[1]] = tableLines[2];
+                }
+
+                switch (Integer.valueOf(dataRow[1])) {
+                    case 1:
+                        table1[1] = "0";
+                        table1[(int) tableLines[0]] = tableLines[2];
+                }
+            }
+        model.addRow(table1);
+    }
+    
     /**
      * @param args the command line arguments
      */
