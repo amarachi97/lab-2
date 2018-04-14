@@ -24,9 +24,21 @@ public class Tables_GUI extends javax.swing.JFrame {
      * Creates new form Tables_GUI
      */
     int row = 0;
+    int initial = 1;
+    Object[] temp1 = {"1", "-", "-", "-", "-", "-", "-"};
+    Object[] temp2 = {"2", "-", "-", "-", "-", "-", "-"};
+    Object[] temp3 = {"3", "-", "-", "-", "-", "-", "-"};
+    Object[] temp4 = {"4", "-", "-", "-", "-", "-", "-"};
+    Object[] temp5 = {"5", "-", "-", "-", "-", "-", "-"};
+    Object[] temp6 = {"6", "-", "-", "-", "-", "-", "-"};
     String columnNames [];
     Object[] tableLines;
     Object[] table1 = {"1", "-", "-", "-", "-", "-", "-"};
+    Object[] table2 = {"2", "-", "-", "-", "-", "-", "-"};
+    Object[] table3 = {"3", "-", "-", "-", "-", "-", "-"};
+    Object[] table4 = {"4", "-", "-", "-", "-", "-", "-"};
+    Object[] table5 = {"5", "-", "-", "-", "-", "-", "-"};
+    Object[] table6 = {"6", "-", "-", "-", "-", "-", "-"};
     public Tables_GUI() throws FileNotFoundException, IOException {
         String columnNames [] = new String [row];
         
@@ -166,21 +178,16 @@ public class Tables_GUI extends javax.swing.JFrame {
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
         // TODO add your handling code here:
-            
-
-       /* switch (Integer.valueOf((String) tableLines[0])) {
-            case 1:
-                table1[1] = "0";
-                table1[(int) tableLines[1]] = tableLines[2];
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(temp1);
+            model.addRow(temp2);
+            model.addRow(temp3);
+            model.addRow(table4);
+            model.addRow(temp5);
+            model.addRow(temp6);
         }
-
-        switch ((int) tableLines[0]) {
-            case 1:
-                table1[1] = "0";
-                table1[(int) tableLines[0]] = tableLines[2];
-        }*/
-        
-        
         
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
@@ -188,23 +195,71 @@ public class Tables_GUI extends javax.swing.JFrame {
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.addRow(table1);
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(table1);
+            model.addRow(temp2);
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(temp1);
+            model.addRow(table2);
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
     private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(temp1);
+            model.addRow(temp2);
+            model.addRow(table3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(temp1);
+            model.addRow(temp2);
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(table5);
+            model.addRow(temp6);
+        }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
         // TODO add your handling code here:
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);
+        if (initial == 1){
+            model.addRow(temp1);
+            model.addRow(temp2);
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(table6);
+        }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
     public void readFile() throws FileNotFoundException, IOException{
@@ -243,15 +298,45 @@ public class Tables_GUI extends javax.swing.JFrame {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[1])] = dataRow[2];
+                    case "2":
+                        table2[2] = "0";
+                        table2[Integer.parseInt(dataRow[1])] = dataRow[2];
+                    case "3":
+                        table3[3] = "0";
+                        table3[Integer.parseInt(dataRow[1])] = dataRow[2];
+                    case "4":
+                        table4[4] = "0";
+                        table4[Integer.parseInt(dataRow[1])] = dataRow[2];
+                    case "5":
+                        table5[5] = "0";
+                        table5[Integer.parseInt(dataRow[1])] = dataRow[2];
+                    case "6":
+                        table6[6] = "0";
+                        table6[Integer.parseInt(dataRow[1])] = dataRow[2];
                 }
 
                 switch (dataRow[1]) {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[0])] = dataRow[2];
+                    case "2":
+                        table2[2] = "0";
+                        table2[Integer.parseInt(dataRow[0])] = dataRow[2];
+                    case "3":
+                        table3[3] = "0";
+                        table3[Integer.parseInt(dataRow[0])] = dataRow[2];
+                    case "4":
+                        table4[4] = "0";
+                        table4[Integer.parseInt(dataRow[0])] = dataRow[2];
+                    case "5":
+                        table5[5] = "0";
+                        table5[Integer.parseInt(dataRow[0])] = dataRow[2];
+                    case "6":
+                        table6[6] = "0";
+                        table6[Integer.parseInt(dataRow[0])] = dataRow[2];
                 }
             }
-        model.addRow(table1);
+        //model.addRow(table1);
     }
     
     /**
