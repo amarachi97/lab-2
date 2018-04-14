@@ -6,19 +6,30 @@ import javax.swing.*;
 import java.io.*;
 
 public class Tables extends JFrame {
-    int row;
+    int row = 0;
     int col;
     int graph[][];
     JTable tables;
+    String line;
+    String name;
     
     public Tables() throws IOException{
+        int i;
+        //setLayout (new FlowLayout());
         
-        setLayout (new FlowLayout());
-        printTables();
+            
+            /*for( i = 0; i < tableLines.length; i++)
+            {
+                String l = tableLines[i].toString().trim();
+                String[] dataRow = l.split(" ");
+            }
+        */
+        //printTables();
     }
     
     public void printTables() throws IOException{
-        int i = 0;
+        
+    /*    int i = 0;
         int j = 0;
     
         String name;
@@ -44,21 +55,21 @@ public class Tables extends JFrame {
                 System.out.print(data[i][j]);
             }
         }
-        
-        tables = new JTable(data, columnNames);
+        */
+        /*tables = new JTable(tableLines, columnNames);
         tables.setPreferredScrollableViewportSize(new Dimension(500,50));
         tables.setFillsViewportHeight(true);
         
         JScrollPane scrollPane = new JScrollPane(tables);
-        add(scrollPane);
+        add(scrollPane);*/
     }
     
-    public static void main(String args[]) throws IOException{
+    /*public static void main(String args[]) throws IOException{
         Tables gui = new Tables();
         gui.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         gui.setSize(600, 200);
         gui.setVisible(true);
         gui.setTitle("Table");
-    }
+    }*/
     
 }
