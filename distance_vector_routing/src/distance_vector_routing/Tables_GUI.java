@@ -10,6 +10,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -25,6 +26,8 @@ public class Tables_GUI extends javax.swing.JFrame {
      */
     int row = 0;
     int initial = 1;
+    Object[][] data; 
+    
     Object[] temp1 = {"1", "-", "-", "-", "-", "-", "-"};
     Object[] temp2 = {"2", "-", "-", "-", "-", "-", "-"};
     Object[] temp3 = {"3", "-", "-", "-", "-", "-", "-"};
@@ -39,6 +42,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     Object[] table4 = {"4", "-", "-", "-", "-", "-", "-"};
     Object[] table5 = {"5", "-", "-", "-", "-", "-", "-"};
     Object[] table6 = {"6", "-", "-", "-", "-", "-", "-"};
+    Object [][] tables = {table1, table2, table3, table4, table5, table6};
     public Tables_GUI() throws FileNotFoundException, IOException {
         //String columnNames [] = new String [row];  
         initComponents();
@@ -172,7 +176,7 @@ public class Tables_GUI extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        
+        dvr();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
@@ -268,14 +272,14 @@ public class Tables_GUI extends javax.swing.JFrame {
         
         String line, name;
         
-        row = tableLines.length + 1;
+        row = tableLines.length;
         
         System.out.print(row);
         
-        columnNames = new String [row];
+        columnNames = new String [row+1];
         int i;
         columnNames[0] = " ";
-        for(i=1; i < row; i++){
+        for(i=1; i < row+1; i++){
             name = Integer.toString(i);
             columnNames[i] = name;
         }
@@ -287,12 +291,13 @@ public class Tables_GUI extends javax.swing.JFrame {
         int i;
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
-        
+        data = new Object[row][3];
         for( i = 0; i < tableLines.length; i++)
             {
                 String l = tableLines[i].toString().trim();
                 String[] dataRow = l.split(" ");
-                System.out.print(dataRow[0]+dataRow[1]+ dataRow[2]);
+                data[i] = dataRow;
+                //System.out.print(dataRow[0]+dataRow[1]+ dataRow[2]);
                 switch (dataRow[0]) {
                     case "1":
                         table1[1] = "0";
@@ -347,6 +352,33 @@ public class Tables_GUI extends javax.swing.JFrame {
                         break;
                 }
             }
+    }
+    
+    public void dvr(){
+        int node, dest, i;
+        int c = 0;
+        int dist = 0;
+        ArrayList<Integer> bellmanFord = new ArrayList<Integer>();
+        initial = 0;
+        for (node=0; node< row; node++){
+            for (dest =0; dest< row; dest++){
+                for (i=1; i< row+1; i++){
+                    c = cost(node, i);
+                    break;
+                }
+                break;
+            }
+            break;
+        }
+        
+}
+    public int cost(int node, int i){
+        int num;
+        num = Integer.parseInt((String)tables[node][i]);
+        //System.out.println(tables[1][1]);
+        System.out.println("num " + num);
+        return 0;
+        
     }
     
     /**
