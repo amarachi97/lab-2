@@ -362,9 +362,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         initial = 0;
         for (node=0; node< row; node++){
             for (dest =0; dest< row; dest++){
-                for (i=1; i< row+1; i++){
+                for (i=1; i<= row; i++){
                     c = cost(node, i);
-                    break;
+                    
                 }
                 break;
             }
