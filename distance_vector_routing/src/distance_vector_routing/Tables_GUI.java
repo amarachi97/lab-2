@@ -183,7 +183,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table4[1] == "-"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -193,12 +193,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
         
         
@@ -208,7 +205,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table1[1] == "-"){
             model.addRow(table1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -218,12 +215,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
@@ -231,7 +225,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table2[1] == "-"){
             model.addRow(temp1);
             model.addRow(table2);
             model.addRow(temp3);
@@ -241,12 +235,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -254,7 +245,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table3[1] == "-"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(table3);
@@ -263,12 +254,9 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp6);
         }
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
@@ -276,7 +264,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table5[1] == "-"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -285,12 +273,9 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp6);
         }
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
@@ -298,7 +283,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
-        if (initial == 1){
+        if (initial == 1 || table6[1] == "-"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -307,12 +292,9 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(table6);
         }
         else{
-            model.addRow(table1);
-            model.addRow(table2);
-            model.addRow(table3);
-            model.addRow(table4);
-            model.addRow(table5);
-            model.addRow(table6);
+            for (int i=0; i< row; i++){
+                model.addRow(tables[i]);
+            }
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
 
@@ -412,8 +394,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         ArrayList<Integer> bellmanFord;
         initial = 0;
         for (node=0; node< row; node++){
-            bellmanFord = new ArrayList<Integer>();
+            
             for (dest =0; dest< row; dest++){
+                bellmanFord = new ArrayList<Integer>();
                 for (i=1; i<= row; i++){
                     cost = Integer.parseInt((String)tables[node][i]);
                     System.out.print("cost" + cost);
@@ -431,13 +414,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         
 }
-    public int cost(int node, int i){
-        int num;
-        num = Integer.parseInt((String)tables[node][i]);
-        //System.out.println(tables[1][1]);
-        System.out.println("num " + num);
-        return num;    
-    }
+
     
     
     /**
