@@ -70,7 +70,6 @@ public class Tables_GUI extends javax.swing.JFrame {
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -91,7 +90,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jMenu1.setText("File");
+        jMenu1.setText("Nodes");
 
         jMenuItem1.setText("node 1");
         jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
@@ -142,9 +141,6 @@ public class Tables_GUI extends javax.swing.JFrame {
         jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
-
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -415,8 +411,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         
 }
 
-    
-    
+  
     /**
      * @param args the command line arguments
      */
@@ -449,6 +444,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new Tables_GUI().setVisible(true);
+                    new Tables().setVisible(true);
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(Tables_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
@@ -461,7 +457,6 @@ public class Tables_GUI extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JMenuItem jMenuItem2;
