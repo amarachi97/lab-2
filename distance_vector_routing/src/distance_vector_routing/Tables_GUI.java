@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
-
+import java.util.Collections;
 /**
  *
  * @author amarachi
@@ -26,7 +26,7 @@ public class Tables_GUI extends javax.swing.JFrame {
      */
     int row = 0;
     int initial = 1;
-    Object[][] data; 
+    Object[][] originalData; 
     
     Object[] temp1 = {"1", "-", "-", "-", "-", "-", "-"};
     Object[] temp2 = {"2", "-", "-", "-", "-", "-", "-"};
@@ -192,6 +192,15 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp6);
         }
         
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
+            model.addRow(table6);
+        }
+        
         
     }//GEN-LAST:event_jMenuItem4ActionPerformed
 
@@ -207,6 +216,15 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp5);
             model.addRow(temp6);
         }
+        
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
+            model.addRow(table6);
+        }
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
@@ -220,6 +238,15 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp4);
             model.addRow(temp5);
             model.addRow(temp6);
+        }
+        
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
+            model.addRow(table6);
         }
     }//GEN-LAST:event_jMenuItem2ActionPerformed
 
@@ -235,6 +262,14 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp5);
             model.addRow(temp6);
         }
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
+            model.addRow(table6);
+        }
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
     private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
@@ -249,6 +284,14 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(table5);
             model.addRow(temp6);
         }
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
+            model.addRow(table6);
+        }
     }//GEN-LAST:event_jMenuItem5ActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -261,6 +304,14 @@ public class Tables_GUI extends javax.swing.JFrame {
             model.addRow(temp3);
             model.addRow(temp4);
             model.addRow(temp5);
+            model.addRow(table6);
+        }
+        else{
+            model.addRow(table1);
+            model.addRow(table2);
+            model.addRow(table3);
+            model.addRow(table4);
+            model.addRow(table5);
             model.addRow(table6);
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
@@ -291,13 +342,12 @@ public class Tables_GUI extends javax.swing.JFrame {
         int i;
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
-        data = new Object[row][3];
+        originalData = new Object[row][3];
         for( i = 0; i < tableLines.length; i++)
             {
                 String l = tableLines[i].toString().trim();
                 String[] dataRow = l.split(" ");
-                data[i] = dataRow;
-                //System.out.print(dataRow[0]+dataRow[1]+ dataRow[2]);
+                //originalData[i] = dataRow;
                 switch (dataRow[0]) {
                     case "1":
                         table1[1] = "0";
@@ -352,23 +402,32 @@ public class Tables_GUI extends javax.swing.JFrame {
                         break;
                 }
             }
+        originalData = tables;
     }
     
     public void dvr(){
         int node, dest, i;
-        int c = 0;
+        int cost = 0;
         int dist = 0;
-        ArrayList<Integer> bellmanFord = new ArrayList<Integer>();
+        ArrayList<Integer> bellmanFord;
         initial = 0;
         for (node=0; node< row; node++){
+            bellmanFord = new ArrayList<Integer>();
             for (dest =0; dest< row; dest++){
                 for (i=1; i<= row; i++){
-                    c = cost(node, i);
-                    
+                    cost = Integer.parseInt((String)tables[node][i]);
+                    System.out.print("cost" + cost);
+                    dist = Integer.parseInt((String)originalData[i-1][dest+1]);
+                    System.out.print("dist" + dist);
+                    bellmanFord.add(cost + dist);
+                    System.out.println();
                 }
-                break;
+                
+                int min = Collections.min(bellmanFord);
+                tables[node][dest+1] = Integer.toString(min);
+                System.out.println(min);
             }
-            break;
+            
         }
         
 }
@@ -377,9 +436,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         num = Integer.parseInt((String)tables[node][i]);
         //System.out.println(tables[1][1]);
         System.out.println("num " + num);
-        return 0;
-        
+        return num;    
     }
+    
     
     /**
      * @param args the command line arguments
