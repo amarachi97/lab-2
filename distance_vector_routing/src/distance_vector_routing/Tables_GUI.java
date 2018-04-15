@@ -15,6 +15,8 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
 import java.util.Collections;
+import javax.swing.JOptionPane;
+import java.awt.Font;
 /**
  *
  * @author amarachi
@@ -26,8 +28,9 @@ public class Tables_GUI extends javax.swing.JFrame {
      */
     int row = 0;
     int initial = 1;
+    int step = 0;
+    ArrayList<Integer> bellmanFord;
     Object[][] originalData; 
-    
     Object[] temp1 = {"1", "-", "-", "-", "-", "-", "-"};
     Object[] temp2 = {"2", "-", "-", "-", "-", "-", "-"};
     Object[] temp3 = {"3", "-", "-", "-", "-", "-", "-"};
@@ -62,6 +65,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
+        jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -89,6 +93,13 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
         ));
         jScrollPane1.setViewportView(jTable1);
+
+        jButton2.setText("STEP-BY-STEP");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Nodes");
 
@@ -151,6 +162,8 @@ public class Tables_GUI extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(183, 183, 183)
                 .addComponent(jButton1)
+                .addGap(28, 28, 28)
+                .addComponent(jButton2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
@@ -161,7 +174,9 @@ public class Tables_GUI extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton1)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -201,7 +216,9 @@ public class Tables_GUI extends javax.swing.JFrame {
         // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setRowCount(0);
+        
         if (initial == 1 || table1[1] == "-"){
+            jTable1.setFont(new Font("Serif", Font.BOLD, 48));
             model.addRow(table1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -293,6 +310,35 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        String message = "Simulation has attained a stable state";
+        int i, dest, cost, dist;
+        initial=0;
+        if (step >= row){
+            JOptionPane.showMessageDialog(null, message, "Notice", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        else{
+            for (dest =0; dest< row; dest++){
+                bellmanFord = new ArrayList<Integer>();
+                for (i=1; i<= row; i++){
+                    cost = Integer.parseInt((String)tables[step][i]);
+                    System.out.print("cost" + cost);
+                    dist = Integer.parseInt((String)originalData[i-1][dest+1]);
+                    System.out.print("dist" + dist);
+                    bellmanFord.add(cost + dist);
+                    System.out.println();
+                }
+                
+                int min = Collections.min(bellmanFord);
+                tables[step][dest+1] = Integer.toString(min);
+                System.out.println(min);
+            }
+        }
+        step++;
+    }//GEN-LAST:event_jButton2ActionPerformed
 
     public void readFile() throws FileNotFoundException, IOException{
         File file = new File("graph.txt");
@@ -387,10 +433,11 @@ public class Tables_GUI extends javax.swing.JFrame {
         int node, dest, i;
         int cost = 0;
         int dist = 0;
-        ArrayList<Integer> bellmanFord;
+        
         initial = 0;
+        long startTime = System.currentTimeMillis();
+
         for (node=0; node< row; node++){
-            
             for (dest =0; dest< row; dest++){
                 bellmanFord = new ArrayList<Integer>();
                 for (i=1; i<= row; i++){
@@ -408,8 +455,10 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
             
         }
-        
-}
+        long stopTime = System.currentTimeMillis();
+        String message = "Elapsed time was " + (stopTime - startTime) + " miliseconds.";
+        JOptionPane.showMessageDialog(null, message, "Run time", JOptionPane.INFORMATION_MESSAGE);
+    }
 
   
     /**
@@ -456,6 +505,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     //private javax.swing.JMenuItem jMenuItem2;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
