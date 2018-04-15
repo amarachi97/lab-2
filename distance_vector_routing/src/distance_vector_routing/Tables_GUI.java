@@ -444,7 +444,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             public void run() {
                 try {
                     new Tables_GUI().setVisible(true);
-                    new Tables().setVisible(true);
+                    
                 } catch (FileNotFoundException ex) {
                     Logger.getLogger(Tables_GUI.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
