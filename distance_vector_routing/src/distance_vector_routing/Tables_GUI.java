@@ -10,7 +10,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.*;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.DefaultTableModel;
@@ -29,23 +30,33 @@ public class Tables_GUI extends javax.swing.JFrame {
     int row = 0;
     int initial = 1;
     int step = 0;
+    int count =0;
     ArrayList<Integer> bellmanFord;
     Object[][] originalData; 
-    Object[] temp1 = {"1", "-", "-", "-", "-", "-", "-"};
-    Object[] temp2 = {"2", "-", "-", "-", "-", "-", "-"};
-    Object[] temp3 = {"3", "-", "-", "-", "-", "-", "-"};
-    Object[] temp4 = {"4", "-", "-", "-", "-", "-", "-"};
-    Object[] temp5 = {"5", "-", "-", "-", "-", "-", "-"};
-    Object[] temp6 = {"6", "-", "-", "-", "-", "-", "-"};
+    Object[] temp1 = {"1", "16", "16", "16", "16", "16", "16"};
+    Object[] temp2 = {"2", "16", "16", "16", "16", "16", "16"};
+    Object[] temp3 = {"3", "16", "16", "16", "16", "16", "16"};
+    Object[] temp4 = {"4", "16", "16", "16", "16", "16", "16"};
+    Object[] temp5 = {"5", "16", "16", "16", "16", "16", "16"};
+    Object[] temp6 = {"6", "16", "16", "16", "16", "16", "16"};
     String columnNames [];
     Object[] tableLines;
-    Object[] table1 = {"1", "-", "-", "-", "-", "-", "-"};
-    Object[] table2 = {"2", "-", "-", "-", "-", "-", "-"};
-    Object[] table3 = {"3", "-", "-", "-", "-", "-", "-"};
-    Object[] table4 = {"4", "-", "-", "-", "-", "-", "-"};
-    Object[] table5 = {"5", "-", "-", "-", "-", "-", "-"};
-    Object[] table6 = {"6", "-", "-", "-", "-", "-", "-"};
+    Object[] table1 = {"1", "16", "16", "16", "16", "16", "16"};
+    Object[] table2 = {"2", "16", "16", "16", "16", "16", "16"};
+    Object[] table3 = {"3", "16", "16", "16", "16", "16", "16"};
+    Object[] table4 = {"4", "16", "16", "16", "16", "16", "16"};
+    Object[] table5 = {"5", "16", "16", "16", "16", "16", "16"};
+    Object[] table6 = {"6", "16", "16", "16", "16", "16", "16"};
     Object [][] tables = {table1, table2, table3, table4, table5, table6};
+    /*Object[] neighbour1 = new Object[4];
+    Object[] neighbour2 = new Object[4];
+    Object[] neighbour3 = new Object[4];
+    Object[] neighbour4 = new Object[4];
+    Object[] neighbour5 = new Object[4];
+    Object[] neighbour6 = new Object[4];*/
+    List<List<Integer>> neighbours;
+    
+    
     public Tables_GUI() throws FileNotFoundException, IOException {
         //String columnNames [] = new String [row];  
         initComponents();
@@ -218,7 +229,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         model.setRowCount(0);
         
         if (initial == 1 || table1[1] == "-"){
-            jTable1.setFont(new Font("Serif", Font.BOLD, 48));
+            //jTable1.setFont(new Font("Serif", Font.BOLD, 48));
             model.addRow(table1);
             model.addRow(temp2);
             model.addRow(temp3);
@@ -313,16 +324,17 @@ public class Tables_GUI extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        String message = "Simulation has attained a stable state";
+        String message = "Simulation has attained a stable state\n";
         int i, dest, cost, dist;
         initial=0;
         if (step >= row){
-            JOptionPane.showMessageDialog(null, message, "Notice", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(null, message + "Cycles: "+ (count+row), "Notice", JOptionPane.WARNING_MESSAGE);
         }
         
         else{
             for (dest =0; dest< row; dest++){
                 bellmanFord = new ArrayList<Integer>();
+                count++;
                 for (i=1; i<= row; i++){
                     cost = Integer.parseInt((String)tables[step][i]);
                     System.out.print("cost" + cost);
@@ -341,25 +353,35 @@ public class Tables_GUI extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     public void readFile() throws FileNotFoundException, IOException{
+        int i,j;
         File file = new File("graph.txt");
         BufferedReader br = new BufferedReader(new FileReader(file));
         tableLines = br.lines().toArray();
         
         String line, name;
+        Integer [] num = new Integer[tableLines.length*2];
         
-        row = tableLines.length;
+        for (i=0,j=0; i<tableLines.length*2; i=i+2, j++){
+            //System.out.println(i);
+            String l = tableLines[j].toString().trim();
+            String[] dataRow = l.split(" ");
+            num[i] = Integer.parseInt(dataRow[0]);
+            num[i+1] = Integer.parseInt(dataRow[1]);
+        }
+        //System.out.println("row: " + Collections.max(Arrays.asList(num)));
+        row = Collections.max(Arrays.asList(num));
         
         System.out.print(row);
         
         columnNames = new String [row+1];
-        int i;
+        
         columnNames[0] = " ";
         for(i=1; i < row+1; i++){
             name = Integer.toString(i);
             columnNames[i] = name;
         }
         populate();
-        
+        populate_neighbours();
     }
     
     public void populate(){
@@ -429,6 +451,29 @@ public class Tables_GUI extends javax.swing.JFrame {
         originalData = tables;
     }
     
+    public void populate_neighbours(){
+        int j;
+        int i;
+        neighbours = new ArrayList<>(row); 
+        for (i = 0; i < row; i++) {
+            neighbours.add(new ArrayList<>());
+        }
+        System.out.println();
+        for (i =0; i<row; i++){
+            for (j=0; j<row; j++){
+                if (Integer.parseInt((String)originalData[j][1]) == (i+1) ){
+                    neighbours.get(i).add(Integer.parseInt((String)originalData[j][2]));
+                    System.out.println("node" + (i+1) + (String)originalData[j][2]);
+                }
+                if (Integer.parseInt((String)originalData[j][2]) == (i+1) ){
+                    neighbours.get(i).add(Integer.parseInt((String)originalData[j][1]));
+                    System.out.println("node" + i + (String)originalData[j][1]);
+                }
+            }
+            System.out.println();
+        }
+    }
+    
     public void dvr(){
         int node, dest, i;
         int cost = 0;
@@ -436,10 +481,12 @@ public class Tables_GUI extends javax.swing.JFrame {
         
         initial = 0;
         long startTime = System.currentTimeMillis();
-
+        synchronized (this){
         for (node=0; node< row; node++){
+            count++;
             for (dest =0; dest< row; dest++){
                 bellmanFord = new ArrayList<Integer>();
+                count++;
                 for (i=1; i<= row; i++){
                     cost = Integer.parseInt((String)tables[node][i]);
                     System.out.print("cost" + cost);
@@ -452,11 +499,13 @@ public class Tables_GUI extends javax.swing.JFrame {
                 int min = Collections.min(bellmanFord);
                 tables[node][dest+1] = Integer.toString(min);
                 System.out.println(min);
+                
             }
             
         }
+        }
         long stopTime = System.currentTimeMillis();
-        String message = "Elapsed time was " + (stopTime - startTime) + " miliseconds.";
+        String message = "Simulation has attained a stable state\n Elapsed time was " + (stopTime - startTime) + " miliseconds.";
         JOptionPane.showMessageDialog(null, message, "Run time", JOptionPane.INFORMATION_MESSAGE);
     }
 
