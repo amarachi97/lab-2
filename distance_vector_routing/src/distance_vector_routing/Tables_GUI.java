@@ -33,7 +33,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     int count =0;
     ArrayList<Integer> bellmanFord;
     Object[][] originalData; 
-    Object[][] initialTable; 
+    //Object[][] initialTable; 
     Object[] temp1 = {"1", "16", "16", "16", "16", "16", "16"};
     Object[] temp2 = {"2", "16", "16", "16", "16", "16", "16"};
     Object[] temp3 = {"3", "16", "16", "16", "16", "16", "16"};
@@ -49,12 +49,13 @@ public class Tables_GUI extends javax.swing.JFrame {
     Object[] table5 = {"5", "16", "16", "16", "16", "16", "16"};
     Object[] table6 = {"6", "16", "16", "16", "16", "16", "16"};
     Object [][] tables = {table1, table2, table3, table4, table5, table6};
-    /*Object[] neighbour1 = new Object[4];
-    Object[] neighbour2 = new Object[4];
-    Object[] neighbour3 = new Object[4];
-    Object[] neighbour4 = new Object[4];
-    Object[] neighbour5 = new Object[4];
-    Object[] neighbour6 = new Object[4];*/
+    Object[] initialTable1 = {"16", "16", "16", "16", "16", "16"};
+    Object[] initialTable2 = {"16", "16", "16", "16", "16", "16"};
+    Object[] initialTable3 = {"16", "16", "16", "16", "16", "16"};
+    Object[] initialTable4 = {"16", "16", "16", "16", "16", "16"};
+    Object[] initialTable5 = {"16", "16", "16", "16", "16", "16"};
+    Object[] initialTable6 = {"16", "16", "16", "16", "16", "16"};
+    Object [][] initialTable = {initialTable1, initialTable2, initialTable3, initialTable4, initialTable5, initialTable6};
     List<List<Integer>> neighbours;
     
     
@@ -390,7 +391,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
         originalData = new Object[tableLines.length][3];
-        initialTable = new Object[6][7];
+        //initialTable = new Object[6][6];
         for( i = 0; i < tableLines.length; i++)
             {
                 String l = tableLines[i].toString().trim();
@@ -400,26 +401,44 @@ public class Tables_GUI extends javax.swing.JFrame {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[0][0] = "0";
+                        initialTable[0][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "2":
                         table2[2] = "0";
                         table2[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[1][1] = "0";
+                        initialTable[1][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "3":
                         table3[3] = "0";
                         table3[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[2][2] = "0";
+                        initialTable[2][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "4":
                         table4[4] = "0";
                         table4[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[3][3] = "0";
+                        initialTable[3][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "5":
                         table5[5] = "0";
                         table5[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[4][4] = "0";
+                        initialTable[4][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "6":
                         table6[6] = "0";
                         table6[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        
+                        initialTable[5][5] = "0";
+                        initialTable[5][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                 }
                 //System.out.print(dataRow[1]);
@@ -427,35 +446,51 @@ public class Tables_GUI extends javax.swing.JFrame {
                     case "1":
                         table1[1] = "0";
                         table1[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[0][0] = "0";
+                        initialTable[0][Integer.parseInt(dataRow[0]) -1] = dataRow[2];
                         break;
                     case "2":
                         table2[2] = "0";
                         table2[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[1][1] = "0";
+                        initialTable[1][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "3":
                         table3[3] = "0";
                         table3[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[2][2] = "0";
+                        initialTable[2][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "4":
                         table4[4] = "0";
                         table4[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[3][3] = "0";
+                        initialTable[3][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "5":
                         table5[5] = "0";
                         table5[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[4][4] = "0";
+                        initialTable[4][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "6":
                         table6[6] = "0";
                         table6[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        
+                        initialTable[5][5] = "0";
+                        initialTable[5][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                 }
             }
-        /*initialTable[0] = table1;
-        initialTable[1] = table2;
-        initialTable[2] = table3;
-        initialTable[3] = table4;
-        initialTable[4] = table5;
-        initialTable[5] = table6;*/
+
+        
+        System.out.println("\na"  +tables[0][0]);
+        System.out.println("b" +initialTable[1][0]);
     }
     
     public void populate_neighbours(){
@@ -480,6 +515,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
             System.out.println();
         }
+        
     }
     
     public void dvr(){
@@ -502,16 +538,22 @@ public class Tables_GUI extends javax.swing.JFrame {
             count++;
             for (dest =1; dest<= row; dest++){
                 bellmanFord = new ArrayList<Integer>();
+                if((node + 1) == dest){
+                       System.out.println("Here" + (node+1) + dest);
+                       bellmanFord.add(0); 
+                       
+                    }
                 count++;
+                
                 for (i=0; i< neighbours.get(node).size(); i++){
                     System.out.print("node " + node);
                     System.out.print(" neighbour " + neighbours.get(node).get(i));
                     cost = Integer.parseInt((String)tables[node][neighbours.get(node).get(i)]);
                     System.out.println("cost " + cost);
                     //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
-                    dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest]);
+                    dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest-1]);
                     System.out.print(" neighbour " + (neighbours.get(node).get(i)-1));
-                    System.out.print("dest " + (dest));
+                    System.out.print("dest " + (dest-1));
                     System.out.println(" dist " + dist);
                     bellmanFord.add(cost + dist);
                     System.out.println();
@@ -519,12 +561,14 @@ public class Tables_GUI extends javax.swing.JFrame {
                 }
                 
                 int min = Collections.min(bellmanFord);
-                tables[node][dest+1] = Integer.toString(min);
+                tables[node][dest] = Integer.toString(min);
                 System.out.println("min" + min);
                 
             }
             
         }
+        System.out.println(tables[0]);
+        System.out.println(initialTable[0]);
         //}
         long stopTime = System.currentTimeMillis();
         String message = "Simulation has attained a stable state\n Elapsed time was " + (stopTime - startTime) + " miliseconds.";
