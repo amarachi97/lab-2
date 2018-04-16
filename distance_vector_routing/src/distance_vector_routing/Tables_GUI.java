@@ -1,8 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ *AMARACHI IWUH
+ *1001122585
  */
+
 package distance_vector_routing;
 
 import java.io.BufferedReader;
@@ -18,22 +18,32 @@ import javax.swing.table.DefaultTableModel;
 import java.util.Collections;
 import javax.swing.JOptionPane;
 import java.awt.Font;
+
 /**
- *
- * @author amarachi
+ *Tables_GUI.java
+ * 
+ * This class runs the Distance vector routing algorithm 
+ * and displays the updated tables on a JFrame GUI. 
+ * The program begins by clicking on the LOAD TABLE button in the 
+ * displayed GUI. Clicking the RUN button will run the Distance Vector 
+ * Algorithm and the tables of the updated nodes can be observed 
+ * using the drop-down menu Nodes on the far-left of the JFrame
  */
+
 public class Tables_GUI extends javax.swing.JFrame {
 
     /**
-     * Creates new form Tables_GUI
+     * Global variables
      */
-    int row = 0;
-    int initial = 1;
-    int step = 0;
+    int row = 0;                        //inidcates total number of nodes in the network
+    int initial = 1;                    //when initial == 1; then the routing algorithm has not been run yet
+                                        //when initial == 0; the algorithm is running and the tables are updated
+    int step = 0;                       //keeps track of each iteration of the algorithm
     int count =0;
-    ArrayList<Integer> bellmanFord;
-    Object[][] originalData; 
-    //Object[][] initialTable; 
+    ArrayList<Integer> bellmanFord;     //stores the added cost and distanc pair
+    Object[][] originalData;            //stores the textfile 
+    
+    //Object arrays used throughout the program to update and display information
     Object[] temp1 = {"1", "16", "16", "16", "16", "16", "16"};
     Object[] temp2 = {"2", "16", "16", "16", "16", "16", "16"};
     Object[] temp3 = {"3", "16", "16", "16", "16", "16", "16"};
@@ -42,13 +52,13 @@ public class Tables_GUI extends javax.swing.JFrame {
     Object[] temp6 = {"6", "16", "16", "16", "16", "16", "16"};
     String columnNames [];
     Object[] tableLines;
-    Object[] table1 = {"1", "16", "16", "16", "16", "16", "16"};
-    Object[] table2 = {"2", "16", "16", "16", "16", "16", "16"};
-    Object[] table3 = {"3", "16", "16", "16", "16", "16", "16"};
-    Object[] table4 = {"4", "16", "16", "16", "16", "16", "16"};
-    Object[] table5 = {"5", "16", "16", "16", "16", "16", "16"};
-    Object[] table6 = {"6", "16", "16", "16", "16", "16", "16"};
-    Object [][] tables = {table1, table2, table3, table4, table5, table6};
+    Object[] updatedTable1 = {"1", "16", "16", "16", "16", "16", "16"};
+    Object[] updatedTable2 = {"2", "16", "16", "16", "16", "16", "16"};
+    Object[] updatedTable3 = {"3", "16", "16", "16", "16", "16", "16"};
+    Object[] updatedTable4 = {"4", "16", "16", "16", "16", "16", "16"};
+    Object[] updatedTable5 = {"5", "16", "16", "16", "16", "16", "16"};
+    Object[] updatedTable6 = {"6", "16", "16", "16", "16", "16", "16"};
+    Object [][] updatedTables = {updatedTable1, updatedTable2, updatedTable3, updatedTable4, updatedTable5, updatedTable6};
     Object[] initialTable1 = {"16", "16", "16", "16", "16", "16"};
     Object[] initialTable2 = {"16", "16", "16", "16", "16", "16"};
     Object[] initialTable3 = {"16", "16", "16", "16", "16", "16"};
@@ -59,11 +69,8 @@ public class Tables_GUI extends javax.swing.JFrame {
     List<List<Integer>> neighbours;
     
     
-    public Tables_GUI() throws FileNotFoundException, IOException {
-        //String columnNames [] = new String [row];  
+    public Tables_GUI() throws FileNotFoundException, IOException { 
         initComponents();
-        readFile();
-        //populate_neighbours();
     }
 
     /**
@@ -75,25 +82,26 @@ public class Tables_GUI extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jButton1 = new javax.swing.JButton();
+        run = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        jButton2 = new javax.swing.JButton();
+        stepBystep = new javax.swing.JButton();
+        loadTable = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
-        jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem6 = new javax.swing.JMenuItem();
+        nodeMenu = new javax.swing.JMenu();
+        Node1 = new javax.swing.JMenuItem();
+        Node2 = new javax.swing.JMenuItem();
+        Node3 = new javax.swing.JMenuItem();
+        Node4 = new javax.swing.JMenuItem();
+        Node5 = new javax.swing.JMenuItem();
+        Node6 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jButton1.setText("RUN");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        run.setText("RUN");
+        run.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                runActionPerformed(evt);
             }
         });
 
@@ -107,64 +115,71 @@ public class Tables_GUI extends javax.swing.JFrame {
         ));
         jScrollPane1.setViewportView(jTable1);
 
-        jButton2.setText("STEP-BY-STEP");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        stepBystep.setText("STEP-BY-STEP");
+        stepBystep.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                stepBystepActionPerformed(evt);
             }
         });
 
-        jMenu1.setText("Nodes");
-
-        jMenuItem1.setText("node 1");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        loadTable.setText("LOAD TABLE");
+        loadTable.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                loadTableActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
 
-        jMenuItem2.setText("node 2");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        nodeMenu.setText("Nodes");
+
+        Node1.setText("node 1");
+        Node1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                Node1ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem2);
+        nodeMenu.add(Node1);
 
-        jMenuItem3.setText("node 3");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        Node2.setText("node 2");
+        Node2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                Node2ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem3);
+        nodeMenu.add(Node2);
 
-        jMenuItem4.setText("node 4");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        Node3.setText("node 3");
+        Node3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                Node3ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem4);
+        nodeMenu.add(Node3);
 
-        jMenuItem5.setText("node 5");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        Node4.setText("node 4");
+        Node4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                Node4ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem5);
+        nodeMenu.add(Node4);
 
-        jMenuItem6.setText("node 6");
-        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+        Node5.setText("node 5");
+        Node5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem6ActionPerformed(evt);
+                Node5ActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem6);
+        nodeMenu.add(Node5);
 
-        jMenuBar1.add(jMenu1);
+        Node6.setText("node 6");
+        Node6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                Node6ActionPerformed(evt);
+            }
+        });
+        nodeMenu.add(Node6);
+
+        jMenuBar1.add(nodeMenu);
 
         setJMenuBar(jMenuBar1);
 
@@ -173,10 +188,12 @@ public class Tables_GUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(183, 183, 183)
-                .addComponent(jButton1)
+                .addGap(73, 73, 73)
+                .addComponent(loadTable)
+                .addGap(37, 37, 37)
+                .addComponent(run)
                 .addGap(28, 28, 28)
-                .addComponent(jButton2)
+                .addComponent(stepBystep)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(15, Short.MAX_VALUE)
@@ -188,8 +205,9 @@ public class Tables_GUI extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
+                    .addComponent(run)
+                    .addComponent(stepBystep)
+                    .addComponent(loadTable))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(46, Short.MAX_VALUE))
@@ -198,134 +216,206 @@ public class Tables_GUI extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+    /**************************************************************************
+     * runActionPerformed(EventListener)
+     * 
+     * This function runs the distance vector routing algorithm to find
+     * the shortest path from each node to every other node.
+     *************************************************************************/
+    
+    private void runActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_runActionPerformed
+
         dvr();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_runActionPerformed
 
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
+    /**************************************************************************
+     * Node4ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 4 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node4ActionPerformed
+
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
-        if (initial == 1 || table4[1] == "-"){
+        model.setRowCount(0);       //clears the table to assemble the new information of each node
+        
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable4[1] == "16"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(temp3);
-            model.addRow(table4);
+            model.addRow(updatedTable4);    //this is displays the updated information for node 4
             model.addRow(temp5);
             model.addRow(temp6);
         }
         
+        //if the algorith has been run, the updated tables for each node will be displayed
         else{
             for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
+                model.addRow(updatedTables[i]);
             }
         }
         
         
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
+    }//GEN-LAST:event_Node4ActionPerformed
+     /**************************************************************************
+     * Node1ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 1 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node1ActionPerformed
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
         
-        if (initial == 1 || table1[1] == "-"){
-            //jTable1.setFont(new Font("Serif", Font.BOLD, 48));
-            model.addRow(table1);
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable1[1] == "16"){
+            
+            model.addRow(updatedTable1); //this is displays the updated information for node 1
             model.addRow(temp2);
             model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        }
+        
+        //if the algorith has been run, the updated tables for each node will be displayed
+        else{
+            for (int i=0; i< row; i++){
+                model.addRow(updatedTables[i]);
+            }
+        }
+    }//GEN-LAST:event_Node1ActionPerformed
+
+    /**************************************************************************
+     * Node2ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 2 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node2ActionPerformed
+    
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable2[1] == "16"){
+            model.addRow(temp1);
+            model.addRow(updatedTable2); //this is displays the updated information for node 2
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        }
+        
+        //if the algorith has been run, the updated tables for each node will be displayed
+        else{
+            for (int i=0; i< row; i++){
+                model.addRow(updatedTables[i]);
+            }
+        }
+    }//GEN-LAST:event_Node2ActionPerformed
+
+    /**************************************************************************
+     * Node3ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 3 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node3ActionPerformed
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable3[1] == "16"){
+            model.addRow(temp1);
+            model.addRow(temp2);
+            model.addRow(updatedTable3);    //this is displays the updated information for node 3
             model.addRow(temp4);
             model.addRow(temp5);
             model.addRow(temp6);
         }
         
+        //if the algorith has been run, the updated tables for each node will be displayed
         else{
             for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
+                model.addRow(updatedTables[i]);
             }
         }
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_Node3ActionPerformed
 
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
+    /**************************************************************************
+     * Node5ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 5 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node5ActionPerformed
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
-        if (initial == 1 || table2[1] == "-"){
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable5[1] == "16"){
             model.addRow(temp1);
-            model.addRow(table2);
+            model.addRow(temp2);
             model.addRow(temp3);
             model.addRow(temp4);
-            model.addRow(temp5);
+            model.addRow(updatedTable5);    //this is displays the updated information for node 5
             model.addRow(temp6);
         }
         
+        //if the algorith has been run, the updated tables for each node will be displayed
         else{
             for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
+                model.addRow(updatedTables[i]);
             }
         }
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
+    }//GEN-LAST:event_Node5ActionPerformed
 
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
-        if (initial == 1 || table3[1] == "-"){
-            model.addRow(temp1);
-            model.addRow(temp2);
-            model.addRow(table3);
-            model.addRow(temp4);
-            model.addRow(temp5);
-            model.addRow(temp6);
-        }
-        else{
-            for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
-            }
-        }
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
+    /**************************************************************************
+     * Node6ActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 6 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void Node6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Node6ActionPerformed
 
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
-        if (initial == 1 || table5[1] == "-"){
-            model.addRow(temp1);
-            model.addRow(temp2);
-            model.addRow(temp3);
-            model.addRow(temp4);
-            model.addRow(table5);
-            model.addRow(temp6);
-        }
-        else{
-            for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
-            }
-        }
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
-        // TODO add your handling code here:
-        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
-        model.setRowCount(0);
-        if (initial == 1 || table6[1] == "-"){
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        
+        //if the algorithm has been run, the table displays the default satate of all the nodes
+        //16 == INFINITY
+        if (initial == 1 || updatedTable6[1] == "16"){
             model.addRow(temp1);
             model.addRow(temp2);
             model.addRow(temp3);
             model.addRow(temp4);
             model.addRow(temp5);
-            model.addRow(table6);
+            model.addRow(updatedTable6);    //this is displays the updated information for node 6
         }
+        
+        //if the algorith has been run, the updated tables for each node will be displayed
         else{
             for (int i=0; i< row; i++){
-                model.addRow(tables[i]);
+                model.addRow(updatedTables[i]);
             }
         }
-    }//GEN-LAST:event_jMenuItem6ActionPerformed
+    }//GEN-LAST:event_Node6ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+    /**************************************************************************
+     * stepBystepActionPerformed(EventListener)
+     * 
+     * This function displays the routing table of Node 6 by displaying the current
+     * routing information of each node, row-by-row
+     *************************************************************************/
+    private void stepBystepActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_stepBystepActionPerformed
+
         String message = "Simulation has attained a stable state\n";
         int i, dest, cost, dist;
         initial=0;
@@ -346,7 +436,7 @@ public class Tables_GUI extends javax.swing.JFrame {
                 for (i=0; i< neighbours.get(step).size(); i++){
                     System.out.print("node " + step);
                     System.out.print(" neighbour " + neighbours.get(step).get(i));
-                    cost = Integer.parseInt((String)tables[step][neighbours.get(step).get(i)]);
+                    cost = Integer.parseInt((String)updatedTables[step][neighbours.get(step).get(i)]);
                     System.out.println("cost " + cost);
                     //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
                     dist = Integer.parseInt((String)initialTable[neighbours.get(step).get(i) -1][dest-1]);
@@ -359,13 +449,32 @@ public class Tables_GUI extends javax.swing.JFrame {
                 }
                 
                 int min = Collections.min(bellmanFord);
-                tables[step][dest] = Integer.toString(min);
+                updatedTables[step][dest] = Integer.toString(min);
                 System.out.println("min" + min);
                 
             }
         }
         step++;
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_stepBystepActionPerformed
+
+    private void loadTableActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loadTableActionPerformed
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        try {
+            // TODO add your handling code here:
+            readFile();
+        } catch (IOException ex) {
+            Logger.getLogger(Tables_GUI.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        model.addRow(updatedTable1); //this is displays the updated information for node 1
+            model.addRow(temp2);
+            model.addRow(temp3);
+            model.addRow(temp4);
+            model.addRow(temp5);
+            model.addRow(temp6);
+        
+    }//GEN-LAST:event_loadTableActionPerformed
 
     public void readFile() throws FileNotFoundException, IOException{
         int i,j;
@@ -412,43 +521,43 @@ public class Tables_GUI extends javax.swing.JFrame {
                 originalData[i] = dataRow;
                 switch (dataRow[0]) {
                     case "1":
-                        table1[1] = "0";
-                        table1[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable1[1] = "0";
+                        updatedTable1[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[0][0] = "0";
                         initialTable[0][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "2":
-                        table2[2] = "0";
-                        table2[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable2[2] = "0";
+                        updatedTable2[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[1][1] = "0";
                         initialTable[1][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "3":
-                        table3[3] = "0";
-                        table3[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable3[3] = "0";
+                        updatedTable3[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[2][2] = "0";
                         initialTable[2][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "4":
-                        table4[4] = "0";
-                        table4[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable4[4] = "0";
+                        updatedTable4[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[3][3] = "0";
                         initialTable[3][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "5":
-                        table5[5] = "0";
-                        table5[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable5[5] = "0";
+                        updatedTable5[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[4][4] = "0";
                         initialTable[4][Integer.parseInt(dataRow[1])-1] = dataRow[2];
                         break;
                     case "6":
-                        table6[6] = "0";
-                        table6[Integer.parseInt(dataRow[1])] = dataRow[2];
+                        updatedTable6[6] = "0";
+                        updatedTable6[Integer.parseInt(dataRow[1])] = dataRow[2];
                         
                         initialTable[5][5] = "0";
                         initialTable[5][Integer.parseInt(dataRow[1])-1] = dataRow[2];
@@ -457,43 +566,43 @@ public class Tables_GUI extends javax.swing.JFrame {
                 //System.out.print(dataRow[1]);
                 switch (dataRow[1]) {
                     case "1":
-                        table1[1] = "0";
-                        table1[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable1[1] = "0";
+                        updatedTable1[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[0][0] = "0";
                         initialTable[0][Integer.parseInt(dataRow[0]) -1] = dataRow[2];
                         break;
                     case "2":
-                        table2[2] = "0";
-                        table2[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable2[2] = "0";
+                        updatedTable2[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[1][1] = "0";
                         initialTable[1][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "3":
-                        table3[3] = "0";
-                        table3[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable3[3] = "0";
+                        updatedTable3[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[2][2] = "0";
                         initialTable[2][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "4":
-                        table4[4] = "0";
-                        table4[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable4[4] = "0";
+                        updatedTable4[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[3][3] = "0";
                         initialTable[3][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "5":
-                        table5[5] = "0";
-                        table5[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable5[5] = "0";
+                        updatedTable5[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[4][4] = "0";
                         initialTable[4][Integer.parseInt(dataRow[0])-1] = dataRow[2];
                         break;
                     case "6":
-                        table6[6] = "0";
-                        table6[Integer.parseInt(dataRow[0])] = dataRow[2];
+                        updatedTable6[6] = "0";
+                        updatedTable6[Integer.parseInt(dataRow[0])] = dataRow[2];
                         
                         initialTable[5][5] = "0";
                         initialTable[5][Integer.parseInt(dataRow[0])-1] = dataRow[2];
@@ -502,7 +611,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
 
         
-        System.out.println("\na"  +tables[0][0]);
+        System.out.println("\na"  +updatedTables[0][0]);
         System.out.println("b" +initialTable[1][0]);
     }
     
@@ -561,10 +670,10 @@ public class Tables_GUI extends javax.swing.JFrame {
                 for (i=0; i< neighbours.get(node).size(); i++){
                     System.out.print("node " + node);
                     System.out.print(" neighbour " + neighbours.get(node).get(i));
-                    cost = Integer.parseInt((String)tables[node][neighbours.get(node).get(i)]);
+                    cost = Integer.parseInt((String)updatedTables[node][neighbours.get(node).get(i)]);
                     System.out.println("cost " + cost);
                     //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
-                    distance(dest, node, i);
+                    //distance(dest, node, i);
                     dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest-1]);
                     System.out.print(" neighbour " + (neighbours.get(node).get(i)-1));
                     System.out.print("dest " + (dest-1));
@@ -575,15 +684,16 @@ public class Tables_GUI extends javax.swing.JFrame {
                 }
                 
                 int min = Collections.min(bellmanFord);
-                tables[node][dest] = Integer.toString(min);
+                updatedTables[node][dest] = Integer.toString(min);
                 System.out.println("min" + min);
                 
-            }
-            
+            }   
         }
-        System.out.println(tables[0]);
-        System.out.println(initialTable[0]);
-        //}
+        DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        model.setRowCount(0);    //clears the table to assemble the new information of each node
+        for (int k=0; k< row; k++){
+                model.addRow(updatedTables[k]);
+            }
         long stopTime = System.currentTimeMillis();
         String message = "Simulation has attained a stable state\n Elapsed time was " + (stopTime - startTime) + " miliseconds.";
         JOptionPane.showMessageDialog(null, message, "Run time", JOptionPane.INFORMATION_MESSAGE);
@@ -657,18 +767,19 @@ public class Tables_GUI extends javax.swing.JFrame {
     }
     //private javax.swing.JMenuItem jMenuItem2;
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem Node1;
+    private javax.swing.JMenuItem Node2;
+    private javax.swing.JMenuItem Node3;
+    private javax.swing.JMenuItem Node4;
+    private javax.swing.JMenuItem Node5;
+    private javax.swing.JMenuItem Node6;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JButton loadTable;
+    private javax.swing.JMenu nodeMenu;
+    private javax.swing.JButton run;
+    private javax.swing.JButton stepBystep;
     // End of variables declaration//GEN-END:variables
 }
 
