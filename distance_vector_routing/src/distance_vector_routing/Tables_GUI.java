@@ -33,6 +33,7 @@ public class Tables_GUI extends javax.swing.JFrame {
     int count =0;
     ArrayList<Integer> bellmanFord;
     Object[][] originalData; 
+    Object[][] initialTable; 
     Object[] temp1 = {"1", "16", "16", "16", "16", "16", "16"};
     Object[] temp2 = {"2", "16", "16", "16", "16", "16", "16"};
     Object[] temp3 = {"3", "16", "16", "16", "16", "16", "16"};
@@ -61,7 +62,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         //String columnNames [] = new String [row];  
         initComponents();
         readFile();
-        populate_neighbours();
+        //populate_neighbours();
     }
 
     /**
@@ -381,7 +382,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             columnNames[i] = name;
         }
         populate();
-        //populate_neighbours();
+        populate_neighbours();
     }
     
     public void populate(){
@@ -389,6 +390,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
         originalData = new Object[tableLines.length][3];
+        initialTable = new Object[6][7];
         for( i = 0; i < tableLines.length; i++)
             {
                 String l = tableLines[i].toString().trim();
@@ -448,7 +450,12 @@ public class Tables_GUI extends javax.swing.JFrame {
                         break;
                 }
             }
-        //originalData = tables;
+        /*initialTable[0] = table1;
+        initialTable[1] = table2;
+        initialTable[2] = table3;
+        initialTable[3] = table4;
+        initialTable[4] = table5;
+        initialTable[5] = table6;*/
     }
     
     public void populate_neighbours(){
@@ -483,23 +490,37 @@ public class Tables_GUI extends javax.swing.JFrame {
         initial = 0;
         long startTime = System.currentTimeMillis();
         //synchronized (this){
+        System.out.println("Initial Table");
+        for (i =0; i<initialTable.length; i++){
+            for(int j=0; j<initialTable[0].length; j++){
+                System.out.print(initialTable[i][j]);
+            }
+            System.out.println();
+        }
+        
         for (node=0; node< row; node++){
             count++;
-            for (dest =0; dest< row; dest++){
+            for (dest =1; dest<= row; dest++){
                 bellmanFord = new ArrayList<Integer>();
                 count++;
-                for (i=1; i<= row; i++){
-                    cost = Integer.parseInt((String)tables[node][i]);
-                    System.out.print("cost" + cost);
-                    dist = Integer.parseInt((String)originalData[i-1][dest+1]);
-                    System.out.print("dist" + dist);
+                for (i=0; i< neighbours.get(node).size(); i++){
+                    System.out.print("node " + node);
+                    System.out.print(" neighbour " + neighbours.get(node).get(i));
+                    cost = Integer.parseInt((String)tables[node][neighbours.get(node).get(i)]);
+                    System.out.println("cost " + cost);
+                    //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
+                    dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest]);
+                    System.out.print(" neighbour " + (neighbours.get(node).get(i)-1));
+                    System.out.print("dest " + (dest));
+                    System.out.println(" dist " + dist);
                     bellmanFord.add(cost + dist);
+                    System.out.println();
                     System.out.println();
                 }
                 
                 int min = Collections.min(bellmanFord);
                 tables[node][dest+1] = Integer.toString(min);
-                System.out.println(min);
+                System.out.println("min" + min);
                 
             }
             
