@@ -61,7 +61,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         //String columnNames [] = new String [row];  
         initComponents();
         readFile();
-        
+        populate_neighbours();
     }
 
     /**
@@ -381,19 +381,19 @@ public class Tables_GUI extends javax.swing.JFrame {
             columnNames[i] = name;
         }
         populate();
-        populate_neighbours();
+        //populate_neighbours();
     }
     
     public void populate(){
         int i;
         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
         model.setColumnIdentifiers(columnNames);
-        originalData = new Object[row][3];
+        originalData = new Object[tableLines.length][3];
         for( i = 0; i < tableLines.length; i++)
             {
                 String l = tableLines[i].toString().trim();
                 String[] dataRow = l.split(" ");
-                //originalData[i] = dataRow;
+                originalData[i] = dataRow;
                 switch (dataRow[0]) {
                     case "1":
                         table1[1] = "0";
@@ -448,7 +448,7 @@ public class Tables_GUI extends javax.swing.JFrame {
                         break;
                 }
             }
-        originalData = tables;
+        //originalData = tables;
     }
     
     public void populate_neighbours(){
@@ -460,14 +460,15 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         System.out.println();
         for (i =0; i<row; i++){
-            for (j=0; j<row; j++){
-                if (Integer.parseInt((String)originalData[j][1]) == (i+1) ){
-                    neighbours.get(i).add(Integer.parseInt((String)originalData[j][2]));
-                    System.out.println("node" + (i+1) + (String)originalData[j][2]);
-                }
-                if (Integer.parseInt((String)originalData[j][2]) == (i+1) ){
+            for (j=0; j<originalData.length; j++){
+                //System.out.println(Integer.parseInt((String)originalData[j][1]));
+                if (Integer.parseInt((String)originalData[j][0]) == (i+1) ){
                     neighbours.get(i).add(Integer.parseInt((String)originalData[j][1]));
-                    System.out.println("node" + i + (String)originalData[j][1]);
+                    System.out.println("node" + (i+1) + (String)originalData[j][1]);
+                }
+                if (Integer.parseInt((String)originalData[j][1]) == (i+1) ){
+                    neighbours.get(i).add(Integer.parseInt((String)originalData[j][0]));
+                    System.out.println("node" + (i+1) + (String)originalData[j][0]);
                 }
             }
             System.out.println();
@@ -481,7 +482,7 @@ public class Tables_GUI extends javax.swing.JFrame {
         
         initial = 0;
         long startTime = System.currentTimeMillis();
-        synchronized (this){
+        //synchronized (this){
         for (node=0; node< row; node++){
             count++;
             for (dest =0; dest< row; dest++){
@@ -503,7 +504,7 @@ public class Tables_GUI extends javax.swing.JFrame {
             }
             
         }
-        }
+        //}
         long stopTime = System.currentTimeMillis();
         String message = "Simulation has attained a stable state\n Elapsed time was " + (stopTime - startTime) + " miliseconds.";
         JOptionPane.showMessageDialog(null, message, "Run time", JOptionPane.INFORMATION_MESSAGE);
