@@ -334,21 +334,34 @@ public class Tables_GUI extends javax.swing.JFrame {
         }
         
         else{
-            for (dest =0; dest< row; dest++){
+            for (dest =1; dest<= row; dest++){
                 bellmanFord = new ArrayList<Integer>();
+                if((step + 1) == dest){
+                       System.out.println("Here" + (step+1) + dest);
+                       bellmanFord.add(0); 
+                       
+                    }
                 count++;
-                for (i=1; i<= row; i++){
-                    cost = Integer.parseInt((String)tables[step][i]);
-                    System.out.print("cost" + cost);
-                    dist = Integer.parseInt((String)originalData[i-1][dest+1]);
-                    System.out.print("dist" + dist);
+                
+                for (i=0; i< neighbours.get(step).size(); i++){
+                    System.out.print("node " + step);
+                    System.out.print(" neighbour " + neighbours.get(step).get(i));
+                    cost = Integer.parseInt((String)tables[step][neighbours.get(step).get(i)]);
+                    System.out.println("cost " + cost);
+                    //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
+                    dist = Integer.parseInt((String)initialTable[neighbours.get(step).get(i) -1][dest-1]);
+                    System.out.print(" neighbour " + (neighbours.get(step).get(i)-1));
+                    System.out.print("dest " + (dest-1));
+                    System.out.println(" dist " + dist);
                     bellmanFord.add(cost + dist);
+                    System.out.println();
                     System.out.println();
                 }
                 
                 int min = Collections.min(bellmanFord);
-                tables[step][dest+1] = Integer.toString(min);
-                System.out.println(min);
+                tables[step][dest] = Integer.toString(min);
+                System.out.println("min" + min);
+                
             }
         }
         step++;
@@ -551,6 +564,7 @@ public class Tables_GUI extends javax.swing.JFrame {
                     cost = Integer.parseInt((String)tables[node][neighbours.get(node).get(i)]);
                     System.out.println("cost " + cost);
                     //dist = Integer.parseInt((String)originalData[neighbours.get(node).get(i)][dest]);
+                    distance(dest, node, i);
                     dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest-1]);
                     System.out.print(" neighbour " + (neighbours.get(node).get(i)-1));
                     System.out.print("dest " + (dest-1));
@@ -575,6 +589,30 @@ public class Tables_GUI extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(null, message, "Run time", JOptionPane.INFORMATION_MESSAGE);
     }
 
+    public int distance(int dest, int node, int i){
+        int dist = 0;
+        int tempNode;
+        if ((neighbours.get(node).get(i)) == (dest-1)){
+            return 0;
+        }
+        
+        tempNode = neighbours.get(node).get(i); //5
+        while(tempNode != dest){
+            for (int j=0; j< neighbours.get(node).size(); i++){
+                if (neighbours.get(tempNode).get(j) != node){
+                    tempNode = neighbours.get(node).get(i); 
+                }
+                    
+            }
+        }
+       // for (int j=0; j< neighbours.get(node).size(); i++){
+            
+            //if()
+            dist = Integer.parseInt((String)initialTable[neighbours.get(node).get(i) -1][dest-1]);
+       // }
+        
+        return dist;
+    }
   
     /**
      * @param args the command line arguments
